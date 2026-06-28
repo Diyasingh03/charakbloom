@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SectionList, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
-import { useCycleData } from '../../cycle/hooks/useCycleData';
+import { useCycle } from '../../cycle/context/CycleContext';
 import { useGroceryList } from '../hooks/useGroceryList';
 import { GroceryItemRow } from '../components/GroceryItem';
 import { AddItemSheet } from '../components/AddItemSheet';
@@ -18,7 +18,7 @@ const CATEGORY_LABELS: Record<GroceryCategory, string> = {
 };
 
 export function GroceriesScreen() {
-  const cycle = useCycleData();
+  const cycle = useCycle();
   const { items, addItem, toggleInStock, removeItem } = useGroceryList();
   const [showAdd, setShowAdd] = useState(false);
   const [search, setSearch] = useState('');

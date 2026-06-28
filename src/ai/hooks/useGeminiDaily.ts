@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { DailyAIContent, CyclePhase, FloPredictions, GroceryItem, UserConstraints } from '../../types';
 import { storageGet, storageSet, storageRemove, STORAGE_KEYS } from '../../lib/storage';
 import { generateDailyContent } from '../services/geminiService';
@@ -29,10 +29,15 @@ export function useGeminiDaily(params: GeminiDailyParams): GeminiDailyState {
   const [isUsingFallback, setIsUsingFallback] = useState(false);
   const [error, setError] = useState<'rate_limited' | null>(null);
 
+  // Always-current ref so regenerate() sends the latest pantry/constraints
+  // even when phase/cycleDay haven't changed (which would normally re-create fetchContent).
+  const paramsRef = useRef(params);
+  paramsRef.current = params;
+
   const today = new Date().toISOString().split('T')[0];
 
   const fetchContent = useCallback(async (force = false) => {
-    if (!params.ready) return;
+    if (!paramsRef.current.ready) return;
     setIsLoading(true);
 
     try {
@@ -47,12 +52,12 @@ export function useGeminiDaily(params: GeminiDailyParams): GeminiDailyState {
       }
 
       const result = await generateDailyContent({
-        phase: params.phase,
-        cycleDay: params.cycleDay,
-        cycleLength: params.cycleLength,
-        inStockItems: params.inStockItems,
-        predictions: params.predictions,
-        constraints: params.constraints,
+        phase: paramsRef.current.phase,
+        cycleDay: paramsRef.current.cycleDay,
+        cycleLength: paramsRef.current.cycleLength,
+        inStockItems: paramsRef.current.inStockItems,
+        predictions: paramsRef.current.predictions,
+        constraints: paramsRef.current.constraints,
       });
 
       if (result) {
@@ -72,11 +77,11 @@ export function useGeminiDaily(params: GeminiDailyParams): GeminiDailyState {
     } finally {
       setIsLoading(false);
     }
-  }, [params.ready, params.phase, params.cycleDay, today]);
+  }, [today]); // paramsRef.current always has latest values; today triggers a new call at midnight
 
   useEffect(() => {
     fetchContent(false);
-  }, [fetchContent]);
+  }, [fetchContent, params.ready]);
 
   const regenerate = async () => {
     setIsRegenerating(true);

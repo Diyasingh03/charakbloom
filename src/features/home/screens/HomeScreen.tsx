@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, View, Text, StyleSheet, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { format } from 'date-fns';
-import { useCycleData } from '../../cycle/hooks/useCycleData';
+import { useCycle } from '../../cycle/context/CycleContext';
 import { useGemini } from '../../../ai/context/GeminiContext';
 import { CyclePhaseCard } from '../../cycle/components/CyclePhaseCard';
 import { MealCard } from '../../meals/components/MealCard';
@@ -25,7 +25,7 @@ function getGreeting(): string {
 }
 
 export function HomeScreen() {
-  const cycle = useCycleData();
+  const cycle = useCycle();
   const gemini = useGemini();
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | (AIWorkout & { phase?: CyclePhase }) | null>(null);
   const [constraintsVisible, setConstraintsVisible] = useState(false);

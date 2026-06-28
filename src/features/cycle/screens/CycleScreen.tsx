@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-import { useCycleData } from '../hooks/useCycleData';
+import { useCycle } from '../context/CycleContext';
 import { useGemini } from '../../../ai/context/GeminiContext';
 import { CircularCycleView } from '../components/CircularCycleView';
 import { CycleHistoryList } from '../components/CycleHistoryList';
@@ -42,7 +42,7 @@ const PHASE_TIPS: Record<string, string[]> = {
 };
 
 export function CycleScreen() {
-  const cycle = useCycleData();
+  const cycle = useCycle();
   const gemini = useGemini();
   const [importVisible, setImportVisible] = useState(false);
 

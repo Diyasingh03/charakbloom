@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView, ScrollView } from 'react-native';
-import { useCycleData } from '../../cycle/hooks/useCycleData';
+import { useCycle } from '../../cycle/context/CycleContext';
 import { useGemini } from '../../../ai/context/GeminiContext';
 import { MealCard } from '../components/MealCard';
 import { PhasePills } from '../../../components/PhasePills';
@@ -13,7 +13,7 @@ import { CyclePhase, AIMeal, MealType } from '../../../types';
 const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack'];
 
 export function MealsScreen() {
-  const cycle = useCycleData();
+  const cycle = useCycle();
   const gemini = useGemini();
   const [filter, setFilter] = useState<CyclePhase | 'all'>(cycle.phase);
 

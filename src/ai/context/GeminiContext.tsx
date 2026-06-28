@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useCycleData } from '../../features/cycle/hooks/useCycleData';
+import { useCycle } from '../../features/cycle/context/CycleContext';
 import { useGroceryList } from '../../features/groceries/hooks/useGroceryList';
 import { useGeminiDaily, GeminiDailyState } from '../hooks/useGeminiDaily';
 import { useConstraints } from '../../hooks/useConstraints';
@@ -14,7 +14,7 @@ interface GeminiContextValue extends GeminiDailyState {
 const GeminiContext = createContext<GeminiContextValue | null>(null);
 
 export function GeminiProvider({ children }: { children: ReactNode }) {
-  const cycle = useCycleData();
+  const cycle = useCycle();
   const { inStockItems } = useGroceryList();
   const { constraints, saveConstraints, resetConstraints } = useConstraints();
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import { useCycleData } from '../../cycle/hooks/useCycleData';
+import { useCycle } from '../../cycle/context/CycleContext';
 import { useGemini } from '../../../ai/context/GeminiContext';
 import { WorkoutCard } from '../components/WorkoutCard';
 import { WorkoutDetailModal } from '../components/WorkoutDetailModal';
@@ -14,7 +14,7 @@ import { Workout, AIWorkout, CyclePhase } from '../../../types';
 type WorkoutData = Workout | (AIWorkout & { phase?: CyclePhase });
 
 export function WorkoutsScreen() {
-  const cycle = useCycleData();
+  const cycle = useCycle();
   const gemini = useGemini();
   const [selectedPhase, setSelectedPhase] = useState<CyclePhase | 'all'>(cycle.phase);
   const [selectedWorkout, setSelectedWorkout] = useState<WorkoutData | null>(null);

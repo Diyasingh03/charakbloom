@@ -29,6 +29,7 @@ export interface CycleState {
   refreshCycle: () => void;
   savePredictions: (p: FloPredictions) => Promise<void>;
   clearManualPredictions: () => Promise<void>;
+  confirmPeriodStart: (date: string) => Promise<void>;
 }
 
 export function useCycleData(): CycleState {
@@ -63,6 +64,20 @@ export function useCycleData(): CycleState {
     await storageSet(STORAGE_KEYS.FLO_PREDICTIONS, null);
   }, []);
 
+  const confirmPeriodStart = useCallback(async (date: string) => {
+    const avgLength = getAverageCycleLength(floData.cycles);
+    const lastPeriodLen = getMostRecentCycle(floData.cycles)?.period_length ?? 5;
+    const newCycle: import('../../../types').Cycle = {
+      start_date: date,
+      end_date: date,
+      cycle_length: avgLength,
+      period_length: lastPeriodLen,
+    };
+    const updated: FloData = { cycles: [...floData.cycles, newCycle] };
+    setFloData(updated);
+    await storageSet(STORAGE_KEYS.FLO_DATA, updated);
+  }, [floData]);
+
   const computedPredictions = useMemo(
     () => computePredictions(floData.cycles),
     [floData.cycles],
@@ -90,5 +105,6 @@ export function useCycleData(): CycleState {
     refreshCycle: loadData,
     savePredictions,
     clearManualPredictions,
+    confirmPeriodStart,
   };
 }

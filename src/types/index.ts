@@ -79,11 +79,14 @@ export type SymptomKey =
   | 'cramps'
   | 'brainFog';
 
+export type PeriodFlow = 'spotting' | 'light' | 'medium' | 'heavy';
+
 export interface SymptomLog {
   id: string;
   date: string;
   cycleDay: number;
   phase: CyclePhase;
+  periodFlow?: PeriodFlow;
   symptoms: Partial<Record<SymptomKey, number>>;
   notes?: string;
 }

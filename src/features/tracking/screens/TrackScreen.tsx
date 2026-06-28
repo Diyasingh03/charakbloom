@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { format, subDays, parseISO } from 'date-fns';
-import { useCycleData } from '../../cycle/hooks/useCycleData';
+import { useCycle } from '../../cycle/context/CycleContext';
 import { useSymptomLog } from '../hooks/useSymptomLog';
 import { SymptomLogger } from '../components/SymptomLogger';
 import { PhaseGradient } from '../../../components/PhaseGradient';
 import { Colors, Typography, Radius, PhaseThemes } from '../../../constants/theme';
 
 export function TrackScreen() {
-  const cycle = useCycleData();
+  const cycle = useCycle();
   const { logs, saveLog, getLogForDate } = useSymptomLog();
   const [viewDate, setViewDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+
+  const handleSaveLog = async (log: import('../../../types').SymptomLog) => {
+    await saveLog(log);
+    const isActualFlow = log.periodFlow === 'light' || log.periodFlow === 'medium' || log.periodFlow === 'heavy';
+    if (isActualFlow && cycle.phase !== 'menstrual') {
+      await cycle.confirmPeriodStart(log.date);
+    }
+  };
 
   const today = format(new Date(), 'yyyy-MM-dd');
   const past7 = Array.from({ length: 7 }, (_, i) => format(subDays(new Date(), i), 'yyyy-MM-dd'));
@@ -72,7 +80,7 @@ export function TrackScreen() {
               existingLog={existingLog}
               cycleDay={cycle.cycleDay}
               phase={cycle.phase}
-              onSave={saveLog}
+              onSave={handleSaveLog}
             />
           </View>
 

@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import Animated, { useAnimatedStyle, withSpring, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
-import { SymptomLog, SymptomKey, CyclePhase } from '../../../types';
+import { SymptomLog, SymptomKey, PeriodFlow, CyclePhase } from '../../../types';
 import { Colors, Typography, Radius, PhaseThemes } from '../../../constants/theme';
 import { Card } from '../../../components/Card';
 import { format } from 'date-fns';
+
+const FLOW_OPTIONS: Array<{ key: PeriodFlow; label: string }> = [
+  { key: 'spotting', label: 'Spotting' },
+  { key: 'light', label: 'Light' },
+  { key: 'medium', label: 'Medium' },
+  { key: 'heavy', label: 'Heavy' },
+];
 
 const SYMPTOMS: Array<{ key: SymptomKey; label: string; emoji: string }> = [
   { key: 'bloating', label: 'Bloating', emoji: '🤢' },
@@ -25,6 +32,7 @@ interface Props {
 }
 
 export function SymptomLogger({ existingLog, cycleDay, phase, onSave }: Props) {
+  const [periodFlow, setPeriodFlow] = useState<PeriodFlow | null>(existingLog?.periodFlow ?? null);
   const [ratings, setRatings] = useState<Partial<Record<SymptomKey, number>>>(
     existingLog?.symptoms ?? {}
   );
@@ -45,6 +53,7 @@ export function SymptomLogger({ existingLog, cycleDay, phase, onSave }: Props) {
       date: today,
       cycleDay,
       phase,
+      periodFlow: periodFlow ?? undefined,
       symptoms: ratings,
       notes: notes.trim() || undefined,
     };
@@ -56,6 +65,31 @@ export function SymptomLogger({ existingLog, cycleDay, phase, onSave }: Props) {
 
   return (
     <View style={styles.container}>
+      {/* Period flow */}
+      <View style={styles.periodSection}>
+        <View style={styles.periodHeader}>
+          <Text style={styles.symptomEmoji}>🩸</Text>
+          <Text style={styles.symptomLabel}>Period flow</Text>
+        </View>
+        <View style={styles.flowRow}>
+          <TouchableOpacity
+            onPress={() => setPeriodFlow(null)}
+            style={[styles.flowChip, periodFlow === null && { backgroundColor: phaseColour, borderColor: phaseColour }]}
+          >
+            <Text style={[styles.flowChipText, periodFlow === null && styles.flowChipTextSelected]}>None</Text>
+          </TouchableOpacity>
+          {FLOW_OPTIONS.map(({ key, label }) => (
+            <TouchableOpacity
+              key={key}
+              onPress={() => setPeriodFlow(key)}
+              style={[styles.flowChip, periodFlow === key && { backgroundColor: phaseColour, borderColor: phaseColour }]}
+            >
+              <Text style={[styles.flowChipText, periodFlow === key && styles.flowChipTextSelected]}>{label}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
       {SYMPTOMS.map(({ key, label, emoji }) => (
         <View key={key} style={styles.symptomRow}>
           <Text style={styles.symptomEmoji}>{emoji}</Text>
@@ -103,6 +137,12 @@ export function SymptomLogger({ existingLog, cycleDay, phase, onSave }: Props) {
 
 const styles = StyleSheet.create({
   container: { paddingHorizontal: 16, gap: 4 },
+  periodSection: { paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.border, gap: 10 },
+  periodHeader: { flexDirection: 'row', alignItems: 'center' },
+  flowRow: { flexDirection: 'row', gap: 8 },
+  flowChip: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: Radius.sm, borderWidth: 1.5, borderColor: Colors.border, backgroundColor: Colors.white },
+  flowChipText: { fontSize: 13, fontWeight: '500', color: Colors.textDark },
+  flowChipTextSelected: { color: Colors.white },
   symptomRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.border },
   symptomEmoji: { fontSize: 18, width: 28 },
   symptomLabel: { ...Typography.label, flex: 1, fontSize: 14 },

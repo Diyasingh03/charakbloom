@@ -6,7 +6,7 @@ import {
 import Svg, { Rect, Line, Text as SvgText, G } from 'react-native-svg';
 import { router } from 'expo-router';
 import { format, parseISO } from 'date-fns';
-import { useCycleData } from '../hooks/useCycleData';
+import { useCycle } from '../context/CycleContext';
 import { computeCycleStats, ChartCycle, OvulationPoint } from '../utils/cycleStats';
 import { PhaseGradient } from '../../../components/PhaseGradient';
 import { Colors, Typography, Radius, Spacing, PhaseThemes } from '../../../constants/theme';
@@ -190,7 +190,7 @@ function StatCard({ label, value, sub, color }: { label: string; value: string; 
 
 // ─── Main screen ──────────────────────────────────────────────────────────────
 export function CycleStatsScreen() {
-  const { cycles, phase } = useCycleData();
+  const { cycles, phase } = useCycle();
   const stats = computeCycleStats(cycles);
 
   return (
