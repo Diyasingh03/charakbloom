@@ -1,4 +1,4 @@
-# Bloom — Personal PCOS Management App
+# CharakBloom — Personal PCOS Management App
 
 A personal iOS app built after a PCOS diagnosis. It connects cycle tracking, phase-synced workouts, PCOS-friendly meal planning, and a daily Gemini AI plan — tuned to real-life constraints, not aspirational ones.
 
@@ -8,7 +8,7 @@ Try it on **[Live demo →](https://bloom-pcos.vercel.app/demo.html)**
 
 ## Why
 
-Generic apps don't know you're in luteal phase and exhausted, or that you only have a stovetop, or that your cycle runs 32–44 days. Bloom connects all of it: current phase → what to eat from what's in the kitchen → what workout makes sense right now → why.
+Generic apps don't know you're in luteal phase and exhausted, or that you only have a stovetop, or that your cycle runs 32–44 days. CharakBloom connects all of it: current phase → what to eat from what's in the kitchen → what workout makes sense right now → why.
 
 ---
 

@@ -19,19 +19,19 @@ export function DisclaimerModal({ visible, onAccept }: Props) {
         <SafeAreaView style={styles.container}>
           <View style={styles.inner}>
             <Text style={styles.emoji}>🌸</Text>
-            <Text style={styles.title}>Welcome to Bloom</Text>
+            <Text style={styles.title}>Welcome to CharakBloom</Text>
             <Text style={styles.subtitle}>Your personal PCOS wellness companion</Text>
 
             <View style={styles.card}>
               <Text style={styles.cardTitle}>Medical Disclaimer</Text>
               <Text style={styles.cardBody}>
-                Bloom is a personal wellness tracking app and is{' '}
+                CharakBloom is a personal wellness tracking app and is{' '}
                 <Text style={styles.bold}>not a medical device</Text>. The information, cycle
                 predictions, meal suggestions, and workout recommendations provided are for
                 personal wellness tracking purposes only.
               </Text>
               <Text style={styles.cardBody}>
-                Bloom is{' '}
+                CharakBloom is{' '}
                 <Text style={styles.bold}>
                   not a substitute for professional medical advice, diagnosis, or treatment
                 </Text>

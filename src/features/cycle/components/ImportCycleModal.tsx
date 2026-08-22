@@ -20,7 +20,7 @@ type State = 'idle' | 'valid' | 'error' | 'importing' | 'success';
 const FORMAT_LABELS: Record<FloImportFormat, string> = {
   'flo-json-export': 'Flo JSON export',
   'flo-txt-export': 'Flo text export',
-  'simplified-json': 'Bloom JSON',
+  'simplified-json': 'CharakBloom JSON',
 };
 
 export function ImportCycleModal({ visible, onClose, onImported }: Props) {
@@ -59,7 +59,7 @@ export function ImportCycleModal({ visible, onClose, onImported }: Props) {
     } else {
       setState('error');
       setDetectedFormat(null);
-      setErrorMsg('Unrecognised format. Please use a Flo JSON export, Flo text export, or Bloom JSON.');
+      setErrorMsg('Unrecognised format. Please use a Flo JSON export, Flo text export, or CharakBloom JSON.');
     }
   };
 
@@ -129,7 +129,7 @@ export function ImportCycleModal({ visible, onClose, onImported }: Props) {
                 : 'Pick your Flo export file or paste its contents below.'}{' '}
               Supported: <Text style={styles.bold}>flo.json</Text> (full Flo export),{' '}
               <Text style={styles.bold}>res.txt</Text> (Flo text export), or a{' '}
-              <Text style={styles.bold}>Bloom JSON</Text> file.
+              <Text style={styles.bold}>CharakBloom JSON</Text> file.
             </Text>
 
             {/* File picker — native only */}

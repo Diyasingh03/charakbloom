@@ -23,9 +23,9 @@ export function PrivacyPolicyModal({ visible, onClose }: Props) {
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <Text style={styles.updated}>Last updated: June 2026</Text>
 
-          <Text style={styles.section}>What Bloom is</Text>
+          <Text style={styles.section}>What CharakBloom is</Text>
           <Text style={styles.body}>
-            Bloom is a personal wellness app designed to help you track your menstrual cycle,
+            CharakBloom is a personal wellness app designed to help you track your menstrual cycle,
             manage PCOS symptoms, and receive personalised meal and workout suggestions.
           </Text>
 
@@ -41,7 +41,7 @@ export function PrivacyPolicyModal({ visible, onClose }: Props) {
 
           <Text style={styles.section}>Data sent to Google Gemini</Text>
           <Text style={styles.body}>
-            To generate personalised daily content, Bloom sends the following to Google's Gemini
+            To generate personalised daily content, CharakBloom sends the following to Google's Gemini
             API once per day:
           </Text>
           <Text style={styles.bullet}>• Your current cycle phase and day number</Text>
@@ -55,14 +55,14 @@ export function PrivacyPolicyModal({ visible, onClose }: Props) {
 
           <Text style={styles.section}>No tracking or advertising</Text>
           <Text style={styles.body}>
-            Bloom does not use analytics, advertising SDKs, or any cross-app tracking. No data is
+            CharakBloom does not use analytics, advertising SDKs, or any cross-app tracking. No data is
             sold or shared with third parties.
           </Text>
 
           <Text style={styles.section}>How to delete your data</Text>
           <Text style={styles.body}>
-            To permanently delete all data stored by Bloom, go to iPhone Settings → General →
-            iPhone Storage → Bloom → Delete App. This removes all locally stored information.
+            To permanently delete all data stored by CharakBloom, go to iPhone Settings → General →
+            iPhone Storage → CharakBloom → Delete App. This removes all locally stored information.
           </Text>
 
           <Text style={styles.section}>Contact</Text>
